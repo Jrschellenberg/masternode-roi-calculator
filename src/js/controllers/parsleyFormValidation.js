@@ -7,7 +7,8 @@ export default class ParsleyFormValidationController {
 		this.startMn = this.masternodeCollateral = null;
 		this.masternodeIncreaseCount = this.days = this.blockTime = this.BLOCKS_PER_DAY = null;
 		this.chart = null;
-		this.colors = ['#e2431e', '#f1ca3a', '#6f9654','#e7711b', '#1c91c0', '#43459d'];
+		this.colors1 = ['#e2431e', '#f1ca3a', '#6f9654','#e7711b', '#1c91c0', '#43459d'];
+		this.colors2 = ['#e7711b', '#1c91c0', '#43459d','#e2431e', '#f1ca3a', '#6f9654'];
 		this.index = 0;
 		
 		
@@ -46,7 +47,7 @@ export default class ParsleyFormValidationController {
 	}
 	
 	calculateColorIndex(){
-		if(this.index >= this.colors.length){
+		if(this.index >= this.colors1.length){
 			this.index = 0;
 		}
 		else{
@@ -64,6 +65,7 @@ export default class ParsleyFormValidationController {
 			var data = new google.visualization.DataTable();
 			data.addColumn('number', 'Days');
 			data.addColumn('number', 'ROI');
+			data.addColumn('number', 'Masternodes');
 
 			
 			data.addRows(controller.dataArray);
@@ -74,9 +76,19 @@ export default class ParsleyFormValidationController {
 					subtitle: 'in Days since Launch Date'
 				},
 				series: {
-					0: { color: controller.colors[controller.index]}
+					0: { color: controller.colors1[controller.index],
+								axis: 'ROI'		},
+					1: { color: controller.colors2[controller.index],
+						axis: 'Masternodes'		}
 					},
-				width: window.innerWidth,
+				axes: {
+					// Adds labels to each axis; they don't have to match the axis names.
+					y: {
+						Masternodes: {label: 'Masternodes on Network'},
+						ROI: {label: 'Return on Investment'}
+					}
+				},
+				width: (window.innerWidth *7)/8,
 				height: window.innerHeight
 			};
 			
@@ -96,7 +108,7 @@ export default class ParsleyFormValidationController {
 				reward = this.calculateMasternodeReward(currentBlock);
 				masternodes = this.calculateMasterNodesOnNetwork(day);
 				ROI = this.calculateROI(reward, masternodes);
-				let array = [day, ROI];
+				let array = [day, ROI, masternodes];
 				this.dataArray.push(array);
 				console.log(`Current Day ${day} \n currentBlock: ${currentBlock} \n reward: ${reward} \n masternodes on Network: ${masternodes} \n ROI: ${ROI}`);
 			}
