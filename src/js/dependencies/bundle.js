@@ -14354,10 +14354,12 @@ var ParsleyFormValidationController = function () {
 		_classCallCheck(this, ParsleyFormValidationController);
 
 		//Initialize instance variables required.
-		this.roiArray = [];
-		this.dayArray = [];
+		this.dataArray = [];
 		this.startMn = this.masternodeCollateral = null;
 		this.masternodeIncreaseCount = this.days = this.blockTime = this.BLOCKS_PER_DAY = null;
+		this.chart = null;
+		this.colors = ['#e2431e', '#f1ca3a', '#6f9654', '#e7711b', '#1c91c0', '#43459d'];
+		this.index = 0;
 
 		this.process();
 	}
@@ -14372,6 +14374,8 @@ var ParsleyFormValidationController = function () {
 			$(document).ready(function () {
 				$('#ROIForm').submit(function (event) {
 					event.preventDefault();
+					controller.dataArray = [];
+
 					var $form = $('#ROIForm');
 					$form.parsley().validate();
 
@@ -14383,9 +14387,9 @@ var ParsleyFormValidationController = function () {
 
 						controller.setValues(data).then(function () {
 							controller.init().then(function () {
+								controller.createChart();
 								console.log("finished simulation.");
-								console.log(controller.roiArray);
-								console.log(controller.dayArray);
+								console.log(controller.dataArray);
 							});
 						});
 					} else {
@@ -14393,6 +14397,47 @@ var ParsleyFormValidationController = function () {
 					}
 				}).bind(_this);
 			});
+		}
+	}, {
+		key: 'calculateColorIndex',
+		value: function calculateColorIndex() {
+			if (this.index >= this.colors.length) {
+				this.index = 0;
+			} else {
+				this.index++;
+			}
+		}
+	}, {
+		key: 'createChart',
+		value: function createChart() {
+			var controller = this;
+			google.charts.load('current', { 'packages': ['line'] });
+			google.charts.setOnLoadCallback(drawChart);
+
+			function drawChart() {
+
+				var data = new google.visualization.DataTable();
+				data.addColumn('number', 'Days');
+				data.addColumn('number', 'ROI');
+
+				data.addRows(controller.dataArray);
+
+				var options = {
+					chart: {
+						title: 'Masternode ROI',
+						subtitle: 'in Days since Launch Date'
+					},
+					series: {
+						0: { color: controller.colors[controller.index] }
+					},
+					width: window.innerWidth,
+					height: window.innerHeight
+				};
+
+				controller.calculateColorIndex();
+				controller.chart = new google.charts.Line(document.getElementById('graph'));
+				controller.chart.draw(data, google.charts.Line.convertOptions(options));
+			}
 		}
 	}, {
 		key: 'init',
@@ -14409,8 +14454,8 @@ var ParsleyFormValidationController = function () {
 					reward = _this2.calculateMasternodeReward(currentBlock);
 					masternodes = _this2.calculateMasterNodesOnNetwork(day);
 					ROI = _this2.calculateROI(reward, masternodes);
-					_this2.dayArray.push(day);
-					_this2.roiArray.push(ROI);
+					var array = [day, ROI];
+					_this2.dataArray.push(array);
 					console.log('Current Day ' + day + ' \n currentBlock: ' + currentBlock + ' \n reward: ' + reward + ' \n masternodes on Network: ' + masternodes + ' \n ROI: ' + ROI);
 				}
 				resolve();

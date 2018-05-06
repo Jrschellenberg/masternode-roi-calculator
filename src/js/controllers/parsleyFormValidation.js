@@ -3,10 +3,13 @@ import getFormData from 'get-form-data';
 export default class ParsleyFormValidationController {
 	constructor(){
 		//Initialize instance variables required.
-		this.roiArray = [];
-		this.dayArray = [];
+		this.dataArray = [];
 		this.startMn = this.masternodeCollateral = null;
 		this.masternodeIncreaseCount = this.days = this.blockTime = this.BLOCKS_PER_DAY = null;
+		this.chart = null;
+		this.colors = ['#e2431e', '#f1ca3a', '#6f9654','#e7711b', '#1c91c0', '#43459d'];
+		this.index = 0;
+		
 		
 		this.process();
 	}
@@ -17,6 +20,8 @@ export default class ParsleyFormValidationController {
 		$(document).ready(() => {
 			$('#ROIForm').submit((event) => {
 				event.preventDefault();
+				controller.dataArray = [];
+				
 				let $form = $('#ROIForm');
 				$form.parsley().validate();
 				
@@ -27,9 +32,9 @@ export default class ParsleyFormValidationController {
 					
 					controller.setValues(data).then(() => {
 						controller.init().then(() => {
+							controller.createChart();
 							console.log("finished simulation.");
-							console.log(controller.roiArray);
-							console.log(controller.dayArray);
+							console.log(controller.dataArray);
 						});
 					});
 				}
@@ -40,6 +45,49 @@ export default class ParsleyFormValidationController {
 		});
 	}
 	
+	calculateColorIndex(){
+		if(this.index >= this.colors.length){
+			this.index = 0;
+		}
+		else{
+			this.index++;
+		}
+	}
+	
+	createChart(){
+		let controller = this;
+		google.charts.load('current', {'packages':['line']});
+		google.charts.setOnLoadCallback(drawChart);
+		
+		function drawChart() {
+			
+			var data = new google.visualization.DataTable();
+			data.addColumn('number', 'Days');
+			data.addColumn('number', 'ROI');
+
+			
+			data.addRows(controller.dataArray);
+			
+			var options = {
+				chart: {
+					title: 'Masternode ROI',
+					subtitle: 'in Days since Launch Date'
+				},
+				series: {
+					0: { color: controller.colors[controller.index]}
+					},
+				width: window.innerWidth,
+				height: window.innerHeight
+			};
+			
+			controller.calculateColorIndex();
+			controller.chart = new google.charts.Line(document.getElementById('graph'));
+			controller.chart.draw(data, google.charts.Line.convertOptions(options));
+		}
+		
+		
+	}
+	
 	init(){
 		return new Promise((resolve) => {
 			let currentBlock, reward, masternodes, ROI;
@@ -48,8 +96,8 @@ export default class ParsleyFormValidationController {
 				reward = this.calculateMasternodeReward(currentBlock);
 				masternodes = this.calculateMasterNodesOnNetwork(day);
 				ROI = this.calculateROI(reward, masternodes);
-				this.dayArray.push(day);
-				this.roiArray.push(ROI);
+				let array = [day, ROI];
+				this.dataArray.push(array);
 				console.log(`Current Day ${day} \n currentBlock: ${currentBlock} \n reward: ${reward} \n masternodes on Network: ${masternodes} \n ROI: ${ROI}`);
 			}
 			resolve();
