@@ -1,7 +1,7 @@
 import route from 'page';
 import Middleware from '../middlewares';
 
-
+import ParsleyFormValidation from './parsleyFormValidation';
 
 
 export default class Router extends Middleware {
@@ -14,7 +14,7 @@ export default class Router extends Middleware {
 	
 	_bindRoutes() {
 		// route('/', KenBurnsEffect);
-		// route('/gallery/', PhotoGallery);
+		route('/', ParsleyFormValidation);
 		
 	}
 	

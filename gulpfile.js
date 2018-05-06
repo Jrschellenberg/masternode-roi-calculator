@@ -32,7 +32,7 @@ const devCssServePath = 'serve/stylesheets/';
 const concatCSSFiles = [devCssServePath+'bootstrap.min.css', devCssServePath+'animate.min.css', devCssServePath+'base.css', devCssServePath+'mainNav.css',
 	devCssServePath+'timeline.css',	devCssServePath+'footer.css',devCssServePath+'classUtilities.css'];
 
-const concatJSFiles = [devJsPath+'jquery-3.2.1.min.js', devJsPath+'googlePieChart.min.js', devJsPath+'fontawesome-all.min.js', devJsPath+'smooth-scroll.min.js',
+const concatJSFiles = [devJsPath+'jquery-3.2.1.min.js', devJsPath+'parsley.min.js', devJsPath+'googlePieChart.min.js', devJsPath+'fontawesome-all.min.js', devJsPath+'smooth-scroll.min.js',
 	devJsPath+'bundle.js'];
 
 

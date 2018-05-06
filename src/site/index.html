@@ -22,54 +22,7 @@ changefreq: monthly
         </div>
         <div class="row justify-content-md-center">
             <div class="col-11 offset-1 mx-auto">
-                <form class="parsleyFormValidate animated" id="ROIForm" data-parsley-errors-container="#errorBlock">
-                    <div class="form-group">
-                        <div id="errorBlock"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="secondary-text" for="exampleInputEmail1">Email address (Required)</label>
-                        <input class="form-control" id="exampleInputEmail1" type="email"
-                                                 aria-describedby="emailHelp" placeholder="Enter email"
-                                                 data-parsley-required="true" name="email"
-                                                 data-parsley-type="email"
-                                                 data-parsley-error-message="Must enter a valid Email"/>
-                        <small class="form-text text-muted secondary-text" id="emailHelp">
-                            We'll never share your email with anyone else.
-                        </small>
-                    </div>
-                    <div class="form-group">
-                        <label class="secondary-text" for="exampleInputFirstName">First Name (Required)
-                        </label>
-                        <input class="form-control" id="exampleInputFirstName" type="text"
-                                                 placeholder="Enter first name" data-parsley-required="true"
-                                                 name="firstName" data-parsley-length="[2, 15]"
-                                                 data-parsley-error-message="Please Enter a first name between 1 - 15 characters"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="secondary-text" for="exampleInputLastName">Last Name (Optional)</label>
-                        <input class="form-control" id="exampleInputLastName" type="text"
-                                                 placeholder="Enter last name" name="lastName"
-                                                 data-parsley-length="[2, 25]"
-                                                 data-parsley-error-message="Please leave blank Or Enter last name between 1 - 25 characters" />
-                    </div>
-                    <div class="form-group">
-                        <label class="secondary-text" for="phone">Phone Number (Optional)
-                        </label>
-                        <input class="form-control" id="phone" type="tel" name="phoneNumber"
-                                       data-parsley-phonevalidator="foo"/>
-                    </div>
-                    <div class="form-group">
-                        <div class="g-recaptcha" data-sitekey="6LdngEwUAAAAAOYLjKvNCEfT5GCvgQ-VhBoFx_F0"
-                             data-callback="recaptchaCallback"></div>
-                        <input id="captchaField"
-                               data-parsley-required="true"
-                               value=""
-                               data-parsley-error-message="Please Select Captcha"
-                               type="text"
-                               style="display:none;"/>
-                    </div>
-                    <button class="primary-color mt-3" type="submit">Submit</button>
-                </form>
+                {% include inputForm.html %}
             </div>
         </div>
         <div class="row justify-content-md-center">
