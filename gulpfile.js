@@ -25,13 +25,15 @@ var sitePath = sourceRoot + '/site';
 var jsPath = sourceRoot + '/js';
 var sassPath = sourceRoot + '/sass';
 var servePath = 'serve';
+const devJsPath = 'src/js/dependencies/';
 
 const devCssServePath = 'serve/stylesheets/';
 
 const concatCSSFiles = [devCssServePath+'bootstrap.min.css', devCssServePath+'animate.min.css', devCssServePath+'base.css', devCssServePath+'mainNav.css',
 	devCssServePath+'timeline.css',	devCssServePath+'footer.css',devCssServePath+'classUtilities.css'];
 
-
+const concatJSFiles = [devJsPath+'jquery-3.2.1.min.js', devJsPath+'googlePieChart.min.js', devJsPath+'fontawesome-all.min.js', devJsPath+'smooth-scroll.min.js',
+	devJsPath+'bundle.js'];
 
 
 var jekyllLogger = (buffer) => {
@@ -39,6 +41,21 @@ var jekyllLogger = (buffer) => {
         .split(/\n/)
         .forEach((message) => gutil.log('Jekyll: ' + message));
 };
+
+
+gulp.task('concatScriptsProd', ['buildJsProd'], () => {
+	return gulp.src(concatJSFiles)
+		.pipe(concat('bundle.js'))
+		.pipe(gulp.dest(servePath+'/js'))
+});
+
+gulp.task('concatScripts', ['buildJs'], () => {
+	return gulp.src(concatJSFiles)
+		.pipe(concat('bundle.js'))
+		.pipe(gulp.dest(servePath+'/js'))
+});
+
+
 
 gulp.task('jekyll', () => {
   var jekyll = child.exec('jekyll build --watch --incremental --drafts --quiet --source ' + sitePath + ' --destination ' + servePath);
@@ -48,12 +65,12 @@ gulp.task('jekyll', () => {
 });
 
 
-gulp.task('buildJekyll', ['buildSass', 'buildJs'], () => {
+gulp.task('buildJekyll', ['buildSass', 'concatScripts'], () => {
   jekyllLogger(child.execSync('jekyll build --source ' + sitePath + ' --destination ' + servePath));
   return process.exit(0);
 });
 
-gulp.task('buildJekyllProduction', ['buildSassProd', 'buildJsProduction'], () => {
+gulp.task('buildJekyllProduction', ['buildSassProd', 'concatScriptsProd'], () => {
 	jekyllLogger(child.execSync('jekyll build --source ' + sitePath + ' --destination ' + servePath));
 	return process.exit(0);
 });
@@ -148,7 +165,7 @@ var b = watchify(browserify(opts)).transform(babelify, { presets: ['es2015'] });
 
 gulp.task('buildJs', bundle); // so you can run `gulp js` to build the file
 
-gulp.task('buildJsProduction', bundleProd);
+gulp.task('buildJsProd', bundleProd);
 
 gulp.task('js', () => {
     b.on('update', bundle); // on any dep update, runs the bundler
@@ -167,7 +184,7 @@ function bundle() {
         // optional, remove if you dont want sourcemaps
         .pipe(sourcemaps.init({ loadMaps: true })) // loads map from browserify file
         .pipe(sourcemaps.write('./')) // writes .map file
-        .pipe(gulp.dest(servePath + '/js'));
+        .pipe(gulp.dest(devJsPath));
 }
 
 function bundleProd() {
@@ -179,5 +196,5 @@ function bundleProd() {
 		// optional, remove if you don't need to buffer file contents
 		.pipe(buffer())
     .pipe(uglify())
-		.pipe(gulp.dest(servePath + '/js'));
+		.pipe(gulp.dest(devJsPath));
 }
