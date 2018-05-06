@@ -28,6 +28,8 @@ export default class ParsleyFormValidationController {
 					controller.setValues(data).then(() => {
 						controller.init().then(() => {
 							console.log("finished simulation.");
+							console.log(controller.roiArray);
+							console.log(controller.dayArray);
 						});
 					});
 				}

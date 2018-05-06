@@ -14384,6 +14384,8 @@ var ParsleyFormValidationController = function () {
 						controller.setValues(data).then(function () {
 							controller.init().then(function () {
 								console.log("finished simulation.");
+								console.log(controller.roiArray);
+								console.log(controller.dayArray);
 							});
 						});
 					} else {
