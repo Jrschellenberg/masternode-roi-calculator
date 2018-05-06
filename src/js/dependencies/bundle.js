@@ -14409,7 +14409,7 @@ var ParsleyFormValidationController = function () {
 					ROI = _this2.calculateROI(reward, masternodes);
 					_this2.dayArray.push(day);
 					_this2.roiArray.push(ROI);
-					console.log('currentBlock: ' + currentBlock + ' \n reward: ' + reward + ' \n masternodes on Network: ' + masternodes + ' \n ROI: ' + ROI);
+					console.log('Current Day ' + day + ' \n currentBlock: ' + currentBlock + ' \n reward: ' + reward + ' \n masternodes on Network: ' + masternodes + ' \n ROI: ' + ROI);
 				}
 				resolve();
 			});
@@ -14423,11 +14423,11 @@ var ParsleyFormValidationController = function () {
 			var _this3 = this;
 
 			return new Promise(function (resolve) {
-				_this3.masternodeCollateral = data.masternodeCollateral;
-				_this3.startMn = data.startMasternodeCount;
-				_this3.masternodeIncreaseCount = data.masternodeIncreasePerDay;
-				_this3.days = data.days;
-				_this3.blockTime = data.blockTime;
+				_this3.masternodeCollateral = parseFloat(data.masternodeCollateral);
+				_this3.startMn = parseInt(data.startMasternodeCount);
+				_this3.masternodeIncreaseCount = parseFloat(data.masternodeIncreasePerDay);
+				_this3.days = parseInt(data.days);
+				_this3.blockTime = parseInt(data.blockTime);
 				_this3.BLOCKS_PER_DAY = 86400 / _this3.blockTime;
 				resolve();
 			});
@@ -14448,6 +14448,8 @@ var ParsleyFormValidationController = function () {
 	}, {
 		key: 'calculateMasterNodesOnNetwork',
 		value: function calculateMasterNodesOnNetwork(day) {
+			console.log('STartMN: ' + this.startMn + ' \n MasternodeIncreaseCount: ' + this.masternodeIncreaseCount);
+
 			return this.startMn + day * this.masternodeIncreaseCount;
 		}
 	}, {

@@ -48,7 +48,7 @@ export default class ParsleyFormValidationController {
 				ROI = this.calculateROI(reward, masternodes);
 				this.dayArray.push(day);
 				this.roiArray.push(ROI);
-				console.log(`currentBlock: ${currentBlock} \n reward: ${reward} \n masternodes on Network: ${masternodes} \n ROI: ${ROI}`);
+				console.log(`Current Day ${day} \n currentBlock: ${currentBlock} \n reward: ${reward} \n masternodes on Network: ${masternodes} \n ROI: ${ROI}`);
 			}
 			resolve();
 		});
@@ -57,11 +57,11 @@ export default class ParsleyFormValidationController {
 	//Here we will initialize the instance variables.
 	setValues(data){
 		return new Promise((resolve) => {
-			this.masternodeCollateral = data.masternodeCollateral;
-			this.startMn = data.startMasternodeCount;
-			this.masternodeIncreaseCount = data.masternodeIncreasePerDay;
-			this.days = data.days;
-			this.blockTime = data.blockTime;
+			this.masternodeCollateral = parseFloat(data.masternodeCollateral);
+			this.startMn = parseInt(data.startMasternodeCount);
+			this.masternodeIncreaseCount = parseFloat(data.masternodeIncreasePerDay);
+			this.days = parseInt(data.days);
+			this.blockTime = parseInt(data.blockTime);
 			this.BLOCKS_PER_DAY = 86400 / this.blockTime;
 			resolve();
 		});
@@ -79,6 +79,8 @@ export default class ParsleyFormValidationController {
 		
 	}
 	calculateMasterNodesOnNetwork(day){
+		console.log(`STartMN: ${this.startMn} \n MasternodeIncreaseCount: ${this.masternodeIncreaseCount}`);
+		
 		return this.startMn + (day * this.masternodeIncreaseCount);
 	}
 	

@@ -33,15 +33,15 @@
             <label class="primary-text" for="numberDays">Days to Run Simulation (Integer)</label>
             <input type="text" class="form-control" id="numberDays" value="360"
                    data-parsley-required="true" name="days"
-                   data-parsley-type="number"
-                   data-parsley-error-message="Must enter a Number of days"/>
+                   data-parsley-type="integer" data-parsley-range="[1, 5000]"
+                   data-parsley-error-message="Days Run Simulation: Must enter a Number of days between 1 - 5000"/>
         </div>
         <div class="col-md py-3">
-            <label class="primary-text" for="blockTime">Block Time (Required)</label>
+            <label class="primary-text" for="blockTime">Block Time (Integer)</label>
             <input type="text" class="form-control" id="blockTime" value="60"
                    data-parsley-required="true" name="blockTime"
-                   data-parsley-type="number"
-                   data-parsley-error-message="Block Time: Must enter a valid Block time, In seconds"/>
+                   data-parsley-type="integer" data-parsley-range="[1, 86400]"
+                   data-parsley-error-message="Block Time: Must enter a valid Block time, In seconds between 1-86400 (86,400)"/>
         </div>
     </div>
     
