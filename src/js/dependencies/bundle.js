@@ -14362,6 +14362,13 @@ var ParsleyFormValidationController = function () {
 		this.colors2 = ['#e7711b', '#1c91c0', '#43459d', '#e2431e', '#f1ca3a', '#6f9654'];
 		this.index = 0;
 
+		this.startBlocks = [];
+		this.endBlocks = [];
+		this.rewards = [];
+		this.masternodePercents = [];
+
+		this.formItems = 8;
+
 		this.process();
 	}
 
@@ -14387,10 +14394,16 @@ var ParsleyFormValidationController = function () {
 						console.log(data);
 
 						controller.setValues(data).then(function () {
+
 							controller.init().then(function () {
 								controller.createChart();
 								console.log("finished simulation.");
 								console.log(controller.dataArray);
+
+								console.log(controller.endBlocks);
+								console.log(controller.startBlocks);
+								console.log(controller.rewards);
+								console.log(controller.masternodePercents);
 							});
 						});
 					} else {
@@ -14488,6 +14501,21 @@ var ParsleyFormValidationController = function () {
 				_this3.days = parseInt(data.days);
 				_this3.blockTime = parseInt(data.blockTime);
 				_this3.BLOCKS_PER_DAY = 86400 / _this3.blockTime;
+
+				for (var i = 0; i < _this3.formItems; i++) {
+					for (var prop in data) {
+						if (prop === 'endBlock' + i) {
+							_this3.endBlocks[i] = parseInt(data[prop]);
+						} else if (prop === 'startBlock' + i) {
+							_this3.startBlocks[i] = parseInt(data[prop]);
+						} else if (prop === 'rewardsBlock' + i) {
+							_this3.rewards[i] = parseInt(data[prop]);
+						} else if (prop === 'mnPercentBlock' + i) {
+							_this3.masternodePercents[i] = Math.floor(parseFloat(data[prop]) * 10);
+						}
+					}
+				}
+
 				resolve();
 			});
 		}
@@ -14514,34 +14542,24 @@ var ParsleyFormValidationController = function () {
 	}, {
 		key: 'calculateMasternodeReward',
 		value: function calculateMasternodeReward(currentBlock) {
-			if (currentBlock > 0 && currentBlock <= 24999) {
-				return 150 * 400 / 1000; // 80
-			} else if (currentBlock > 24999 && currentBlock <= 49999) {
-				return 150 * 475 / 1000; // 95
-			} else if (currentBlock > 49999 && currentBlock <= 74999) {
-				return 150 * 600 / 1000; // 120
-			}
 
-			// if (currentBlock > 0 && currentBlock <= 24999) {
-			// 	return (200 * 400) / 1000; // 80
-			// }
-			// else if (currentBlock > 24999 && currentBlock <= 49999) {
-			// 	return (200 * 475) / 1000; // 95
-			// }
-			// else if (currentBlock > 49999 && currentBlock <= 74999) {
-			// 	return (200 * 600) / 1000; // 120
-			// }
-			else if (currentBlock > 74999 && currentBlock <= 199999) {
-					return 150 * 600 / 1000; // 90
-				} else if (currentBlock > 199999 && currentBlock <= 319999) {
-					return 100 * 600 / 1000; // 60
-				} else if (currentBlock > 319999 && currentBlock <= 439999) {
-					return 75 * 600 / 1000; // 45
-				} else if (currentBlock > 439999 && currentBlock <= 559999) {
-					return 50 * 600 / 1000; // 30
-				} else if (currentBlock > 559999) {
-					return 25 * 600 / 1000; // 15
-				}
+			if (currentBlock > this.startBlocks[0] && currentBlock <= this.endBlocks[0]) {
+				return this.rewards[0] * this.masternodePercents[0] / 1000;
+			} else if (currentBlock > this.startBlocks[1] && currentBlock <= this.endBlocks[1]) {
+				return this.rewards[1] * this.masternodePercents[1] / 1000;
+			} else if (currentBlock > this.startBlocks[2] && currentBlock <= this.endBlocks[2]) {
+				return this.rewards[2] * this.masternodePercents[2] / 1000;
+			} else if (currentBlock > this.startBlocks[3] && currentBlock <= this.endBlocks[3]) {
+				return this.rewards[3] * this.masternodePercents[3] / 1000;
+			} else if (currentBlock > this.startBlocks[4] && currentBlock <= this.endBlocks[4]) {
+				return this.rewards[4] * this.masternodePercents[4] / 1000;
+			} else if (currentBlock > this.startBlocks[5] && currentBlock <= this.endBlocks[5]) {
+				return this.rewards[5] * this.masternodePercents[5] / 1000;
+			} else if (currentBlock > this.startBlocks[6] && currentBlock <= this.endBlocks[6]) {
+				return this.rewards[6] * this.masternodePercents[6] / 1000;
+			} else if (currentBlock > this.startBlocks[7]) {
+				return this.rewards[6] * this.masternodePercents[6] / 1000;
+			}
 		}
 	}]);
 

@@ -1,39 +1,39 @@
-- val: 1
+- val: 0
   startBlockValue: 0 
   endBlockValue: 24999
   blockReward: 150
   masternodePercent: 40
-- val: 2
+- val: 1
   startBlockValue: 24999
   endBlockValue: 49999
   blockReward: 150 
   masternodePercent: 47.5
-- val: 3
+- val: 2
   startBlockValue: 49999
   endBlockValue: 74999
   blockReward: 150
   masternodePercent: 60
-- val: 4
+- val: 3
   startBlockValue: 74999
   endBlockValue: 199999
   blockReward: 150
   masternodePercent: 60
-- val: 5
+- val: 4
   startBlockValue: 199999
   endBlockValue: 319999
   blockReward: 100
   masternodePercent: 60 
-- val: 6 
+- val: 5 
   startBlockValue: 319999
   endBlockValue: 439999
   blockReward: 75
   masternodePercent: 60
-- val: 7
+- val: 6
   startBlockValue: 439999
   endBlockValue: 559999
   blockReward: 50
   masternodePercent: 60
-- val: 8
+- val: 7
   startBlockValue: 559999
   endBlockValue: 559999
   blockReward: 25

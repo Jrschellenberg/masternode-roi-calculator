@@ -11,8 +11,15 @@ export default class ParsleyFormValidationController {
 		this.colors2 = ['#e7711b', '#1c91c0', '#43459d','#e2431e', '#f1ca3a', '#6f9654'];
 		this.index = 0;
 		
+		this.startBlocks = [];
+		this.endBlocks = [];
+		this.rewards = [];
+		this.masternodePercents = [];
 		
-		this.process();
+		this.formItems = 8;
+		
+			
+			this.process();
 	}
 	
 	process() {
@@ -32,10 +39,17 @@ export default class ParsleyFormValidationController {
 					console.log(data);
 					
 					controller.setValues(data).then(() => {
+						
+						
 						controller.init().then(() => {
 							controller.createChart();
 							console.log("finished simulation.");
 							console.log(controller.dataArray);
+							
+							console.log(controller.endBlocks);
+							console.log(controller.startBlocks);
+							console.log(controller.rewards);
+							console.log(controller.masternodePercents);
 						});
 					});
 				}
@@ -125,6 +139,24 @@ export default class ParsleyFormValidationController {
 			this.days = parseInt(data.days);
 			this.blockTime = parseInt(data.blockTime);
 			this.BLOCKS_PER_DAY = 86400 / this.blockTime;
+			
+			for(let i=0; i<this.formItems; i++){
+				for(let prop in data){
+					if(prop === 'endBlock'+i){
+						this.endBlocks[i] = parseInt(data[prop]);
+					}
+					else if(prop === 'startBlock'+i){
+						this.startBlocks[i] = parseInt(data[prop]);
+					}
+					else if(prop === 'rewardsBlock'+i){
+						this.rewards[i] = parseInt(data[prop]);
+					}
+					else if(prop === 'mnPercentBlock'+i){
+						this.masternodePercents[i] = Math.floor(parseFloat(data[prop])*10);
+					}
+				}
+			}
+			
 			resolve();
 		});
 	}
@@ -147,39 +179,30 @@ export default class ParsleyFormValidationController {
 	}
 	
 	calculateMasternodeReward(currentBlock) {
-		if (currentBlock > 0 && currentBlock <= 24999) {
-			return (150 * 400) / 1000; // 80
-		}
-		else if (currentBlock > 24999 && currentBlock <= 49999) {
-			return (150 * 475) / 1000; // 95
-		}
-		else if (currentBlock > 49999 && currentBlock <= 74999) {
-			return (150 * 600) / 1000; // 120
-		}
 		
-		// if (currentBlock > 0 && currentBlock <= 24999) {
-		// 	return (200 * 400) / 1000; // 80
-		// }
-		// else if (currentBlock > 24999 && currentBlock <= 49999) {
-		// 	return (200 * 475) / 1000; // 95
-		// }
-		// else if (currentBlock > 49999 && currentBlock <= 74999) {
-		// 	return (200 * 600) / 1000; // 120
-		// }
-		else if (currentBlock > 74999 && currentBlock <= 199999) {
-			return  (150 * 600) / 1000; // 90
+		if (currentBlock > this.startBlocks[0] && currentBlock <= this.endBlocks[0]) {
+			return (this.rewards[0] * this.masternodePercents[0]) / 1000; 
 		}
-		else if (currentBlock > 199999 && currentBlock <= 319999) {
-			return  (100 * 600) / 1000; // 60
+		else if (currentBlock > this.startBlocks[1] && currentBlock <= this.endBlocks[1]) {
+			return (this.rewards[1] * this.masternodePercents[1]) / 1000; 
 		}
-		else if (currentBlock > 319999 && currentBlock <= 439999) {
-			return  (75 * 600) / 1000; // 45
+		else if (currentBlock > this.startBlocks[2] && currentBlock <= this.endBlocks[2]) {
+			return (this.rewards[2] * this.masternodePercents[2]) / 1000; 
 		}
-		else if (currentBlock > 439999 && currentBlock <= 559999) {
-			return  (50 * 600) / 1000; // 30
+		else if (currentBlock > this.startBlocks[3] && currentBlock <= this.endBlocks[3]) {
+			return (this.rewards[3] * this.masternodePercents[3]) / 1000; 
 		}
-		else if (currentBlock > 559999) {
-			return  (25 * 600) / 1000; // 15
+		else if (currentBlock > this.startBlocks[4] && currentBlock <= this.endBlocks[4]) {
+			return (this.rewards[4] * this.masternodePercents[4]) / 1000; 
+		}
+		else if (currentBlock > this.startBlocks[5] && currentBlock <= this.endBlocks[5]) {
+			return (this.rewards[5] * this.masternodePercents[5]) / 1000; 
+		}
+		else if (currentBlock > this.startBlocks[6] && currentBlock <= this.endBlocks[6]) {
+			return (this.rewards[6] * this.masternodePercents[6]) / 1000; 
+		}
+		else if (currentBlock > this.startBlocks[7]) {
+			return (this.rewards[6] * this.masternodePercents[6]) / 1000; 
 		}
 	}
 	
