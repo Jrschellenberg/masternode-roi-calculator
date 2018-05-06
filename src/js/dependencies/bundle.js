@@ -14375,42 +14375,41 @@ var ParsleyFormValidationController = function () {
 	_createClass(ParsleyFormValidationController, [{
 		key: 'process',
 		value: function process() {
-			var _this = this;
-
 			var controller = this;
 
 			$(document).ready(function () {
 				$('#ROIForm').submit(function (event) {
-					event.preventDefault();
-					controller.dataArray = [];
-
-					var $form = $('#ROIForm');
-					$form.parsley().validate();
-
-					if ($form.parsley().isValid()) {
-						//If form is valid do ajax post!
-						var form = document.querySelector('#ROIForm'),
-						    data = (0, _getFormData2.default)(form); //Bundle all data up into useable pieces.
-						console.log(data);
-
-						controller.setValues(data).then(function () {
-
-							controller.init().then(function () {
-								controller.createChart();
-								console.log("finished simulation.");
-								console.log(controller.dataArray);
-
-								console.log(controller.endBlocks);
-								console.log(controller.startBlocks);
-								console.log(controller.rewards);
-								console.log(controller.masternodePercents);
-							});
-						});
-					} else {
-						console.log("form is invalid");
+					controller.processForm(event);
+				});
+				$(document).keypress(function (event) {
+					if (event.which === 13) {
+						controller.processForm(event);
 					}
-				}).bind(_this);
+				});
 			});
+		}
+	}, {
+		key: 'processForm',
+		value: function processForm(event) {
+			var controller = this;
+			event.preventDefault();
+			controller.dataArray = [];
+			var $form = $('#ROIForm');
+			$form.parsley().validate();
+
+			if ($form.parsley().isValid()) {
+				//If form is valid do ajax post!
+				var form = document.querySelector('#ROIForm'),
+				    data = (0, _getFormData2.default)(form); //Bundle all data up into useable pieces.
+
+				controller.setValues(data).then(function () {
+					controller.init().then(function () {
+						controller.createChart();
+					});
+				});
+			} else {
+				console.log("form is invalid");
+			}
 		}
 	}, {
 		key: 'calculateColorIndex',
@@ -14467,21 +14466,21 @@ var ParsleyFormValidationController = function () {
 	}, {
 		key: 'init',
 		value: function init() {
-			var _this2 = this;
+			var _this = this;
 
 			return new Promise(function (resolve) {
 				var currentBlock = void 0,
 				    reward = void 0,
 				    masternodes = void 0,
 				    ROI = void 0;
-				for (var day = 1; day <= _this2.days; day++) {
-					currentBlock = _this2.recalculateBlock(day);
-					reward = _this2.calculateMasternodeReward(currentBlock);
-					masternodes = _this2.calculateMasterNodesOnNetwork(day);
-					ROI = _this2.calculateROI(reward, masternodes);
+				for (var day = 1; day <= _this.days; day++) {
+					currentBlock = _this.recalculateBlock(day);
+					reward = _this.calculateMasternodeReward(currentBlock);
+					masternodes = _this.calculateMasterNodesOnNetwork(day);
+					ROI = _this.calculateROI(reward, masternodes);
 					var array = [day, ROI, masternodes];
-					_this2.dataArray.push(array);
-					console.log('Current Day ' + day + ' \n currentBlock: ' + currentBlock + ' \n reward: ' + reward + ' \n masternodes on Network: ' + masternodes + ' \n ROI: ' + ROI);
+					_this.dataArray.push(array);
+					//console.log(`Current Day ${day} \n currentBlock: ${currentBlock} \n reward: ${reward} \n masternodes on Network: ${masternodes} \n ROI: ${ROI}`);
 				}
 				resolve();
 			});
@@ -14492,26 +14491,26 @@ var ParsleyFormValidationController = function () {
 	}, {
 		key: 'setValues',
 		value: function setValues(data) {
-			var _this3 = this;
+			var _this2 = this;
 
 			return new Promise(function (resolve) {
-				_this3.masternodeCollateral = parseFloat(data.masternodeCollateral);
-				_this3.startMn = parseInt(data.startMasternodeCount);
-				_this3.masternodeIncreaseCount = parseFloat(data.masternodeIncreasePerDay);
-				_this3.days = parseInt(data.days);
-				_this3.blockTime = parseInt(data.blockTime);
-				_this3.BLOCKS_PER_DAY = 86400 / _this3.blockTime;
+				_this2.masternodeCollateral = parseFloat(data.masternodeCollateral);
+				_this2.startMn = parseInt(data.startMasternodeCount);
+				_this2.masternodeIncreaseCount = parseFloat(data.masternodeIncreasePerDay);
+				_this2.days = parseInt(data.days);
+				_this2.blockTime = parseInt(data.blockTime);
+				_this2.BLOCKS_PER_DAY = 86400 / _this2.blockTime;
 
-				for (var i = 0; i < _this3.formItems; i++) {
+				for (var i = 0; i < _this2.formItems; i++) {
 					for (var prop in data) {
 						if (prop === 'endBlock' + i) {
-							_this3.endBlocks[i] = parseInt(data[prop]);
+							_this2.endBlocks[i] = parseInt(data[prop]);
 						} else if (prop === 'startBlock' + i) {
-							_this3.startBlocks[i] = parseInt(data[prop]);
+							_this2.startBlocks[i] = parseInt(data[prop]);
 						} else if (prop === 'rewardsBlock' + i) {
-							_this3.rewards[i] = parseInt(data[prop]);
+							_this2.rewards[i] = parseInt(data[prop]);
 						} else if (prop === 'mnPercentBlock' + i) {
-							_this3.masternodePercents[i] = Math.floor(parseFloat(data[prop]) * 10);
+							_this2.masternodePercents[i] = Math.floor(parseFloat(data[prop]) * 10);
 						}
 					}
 				}
@@ -14535,8 +14534,6 @@ var ParsleyFormValidationController = function () {
 	}, {
 		key: 'calculateMasterNodesOnNetwork',
 		value: function calculateMasterNodesOnNetwork(day) {
-			console.log('STartMN: ' + this.startMn + ' \n MasternodeIncreaseCount: ' + this.masternodeIncreaseCount);
-
 			return this.startMn + day * this.masternodeIncreaseCount;
 		}
 	}, {

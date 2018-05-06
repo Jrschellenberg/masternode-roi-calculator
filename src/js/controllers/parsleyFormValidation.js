@@ -18,8 +18,7 @@ export default class ParsleyFormValidationController {
 		
 		this.formItems = 8;
 		
-			
-			this.process();
+		this.process();
 	}
 	
 	process() {
@@ -27,37 +26,38 @@ export default class ParsleyFormValidationController {
 		
 		$(document).ready(() => {
 			$('#ROIForm').submit((event) => {
-				event.preventDefault();
-				controller.dataArray = [];
-				
-				let $form = $('#ROIForm');
-				$form.parsley().validate();
-				
-				if($form.parsley().isValid()){ //If form is valid do ajax post!
-					let form = document.querySelector('#ROIForm'),
-						data = getFormData(form); //Bundle all data up into useable pieces.
-					console.log(data);
-					
-					controller.setValues(data).then(() => {
-						
-						
-						controller.init().then(() => {
-							controller.createChart();
-							console.log("finished simulation.");
-							console.log(controller.dataArray);
-							
-							console.log(controller.endBlocks);
-							console.log(controller.startBlocks);
-							console.log(controller.rewards);
-							console.log(controller.masternodePercents);
-						});
-					});
+				controller.processForm(event);
+			});
+			$(document).keypress(function(event){
+				if(event.which === 13) {
+					controller.processForm(event);
 				}
-				else{
-					console.log("form is invalid");
-				}
-			}).bind(this);
+			});
 		});
+	}
+	
+	
+	processForm(event){
+		let controller = this;
+		event.preventDefault();
+		controller.dataArray = [];
+		let $form = $('#ROIForm');
+		$form.parsley().validate();
+		
+		if($form.parsley().isValid()){ //If form is valid do ajax post!
+			let form = document.querySelector('#ROIForm'),
+				data = getFormData(form); //Bundle all data up into useable pieces.
+			
+			controller.setValues(data).then(() => {
+				controller.init().then(() => {
+					controller.createChart();
+				});
+			});
+		}
+		else{
+			console.log("form is invalid");
+		}
+		
 	}
 	
 	calculateColorIndex(){
@@ -124,7 +124,7 @@ export default class ParsleyFormValidationController {
 				ROI = this.calculateROI(reward, masternodes);
 				let array = [day, ROI, masternodes];
 				this.dataArray.push(array);
-				console.log(`Current Day ${day} \n currentBlock: ${currentBlock} \n reward: ${reward} \n masternodes on Network: ${masternodes} \n ROI: ${ROI}`);
+				//console.log(`Current Day ${day} \n currentBlock: ${currentBlock} \n reward: ${reward} \n masternodes on Network: ${masternodes} \n ROI: ${ROI}`);
 			}
 			resolve();
 		});
@@ -173,8 +173,6 @@ export default class ParsleyFormValidationController {
 		
 	}
 	calculateMasterNodesOnNetwork(day){
-		console.log(`STartMN: ${this.startMn} \n MasternodeIncreaseCount: ${this.masternodeIncreaseCount}`);
-		
 		return this.startMn + (day * this.masternodeIncreaseCount);
 	}
 	
@@ -205,5 +203,4 @@ export default class ParsleyFormValidationController {
 			return (this.rewards[6] * this.masternodePercents[6]) / 1000; 
 		}
 	}
-	
 }
