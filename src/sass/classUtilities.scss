@@ -87,6 +87,16 @@
 .parsley-custom-error-message{
   color: $error-text-colour !important;
 }
+.parsley-error{
+  background-color: $background-error-colour;
+}
+.parsley-success{
+  background-color: $background-success-colour;
+}
+
+
+
+
 
 .iconSize{
   font-size:3rem;

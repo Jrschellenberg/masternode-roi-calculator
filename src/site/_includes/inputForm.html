@@ -3,30 +3,47 @@
         <div id="errorBlock"></div>
     </div>
     <div class="form-group">
-        <label class="primary-text" for="exampleInputEmail1">Email address (Required)</label>
-        <input class="form-control" id="exampleInputEmail1" type="email"
-               aria-describedby="emailHelp" placeholder="Enter email"
-               data-parsley-required="true" name="email"
-               data-parsley-type="email"
-               data-parsley-error-message="Must enter a valid Email"/>
-        <small class="form-text text-muted primary-text" id="emailHelp">
-            We'll never share your email with anyone else.
-        </small>
+        <label class="primary-text" for="masternodeCollateral">Masternode Collateral</label>
+        <input class="form-control" id="masternodeCollateral" type="text"
+               aria-describedby="emailHelp" value="10000"
+               data-parsley-required="true" name="masternodeCollateral"
+               data-parsley-type="number" data-parsley-range="[1, 1000000]"
+               data-parsley-error-message="Masternode Collateral: Must enter valid number between 1 - 1000000 (1,000,000)"/>
     </div>
-    <div class="form-group">
-        <label class="primary-text" for="exampleInputFirstName">First Name (Required)
+    <div class="form-row">
+        <div class="col-md py-3">
+        <label class="primary-text" for="exampleInputFirstName">Start Masternode Count (Integer)
         </label>
         <input class="form-control" id="exampleInputFirstName" type="text"
-               placeholder="Enter first name" data-parsley-required="true"
-               name="firstName" data-parsley-length="[2, 15]"
-               data-parsley-error-message="Please Enter a first name between 1 - 15 characters"/>
+               placeholder="Enter first name" data-parsley-required="true" value="115"
+               data-parsley-type="integer" data-parsley-range="[1, 5000]"
+               name="startMasternodeCount"
+               data-parsley-error-message="Start Masternode: Please Enter Integer value between 1 - 5000"/>
+        </div>
+        <div class="col-md py-3">
+        <label class="primary-text" for="masternodeIncreasePerDay">Masternode Increase Per Day</label>
+        <input class="form-control" id="masternodeIncreasePerDay" type="text" value="2.5"
+               name="masternodeIncreasePerDay"
+               data-parsley-type="number" data-parsley-range="[1, 1000]"
+               data-parsley-error-message="Masternode Increase: Please a number value between 1 - 1000" />
+        </div>
     </div>
-    <div class="form-group">
-        <label class="primary-text" for="exampleInputLastName">Last Name (Optional)</label>
-        <input class="form-control" id="exampleInputLastName" type="text"
-               placeholder="Enter last name" name="lastName"
-               data-parsley-length="[2, 25]"
-               data-parsley-error-message="Please leave blank Or Enter last name between 1 - 25 characters" />
+    <div class="form-row">
+        <div class="col-md py-3">
+            <label class="primary-text" for="numberDays">Days to Run Simulation (Integer)</label>
+            <input type="text" class="form-control" id="numberDays" value="360"
+                   data-parsley-required="true" name="days"
+                   data-parsley-type="number"
+                   data-parsley-error-message="Must enter a Number of days"/>
+        </div>
+        <div class="col-md py-3">
+            <label class="primary-text" for="blockTime">Block Time (Required)</label>
+            <input type="text" class="form-control" id="blockTime" value="60"
+                   data-parsley-required="true" name="blockTime"
+                   data-parsley-type="number"
+                   data-parsley-error-message="Block Time: Must enter a valid Block time, In seconds"/>
+        </div>
     </div>
+    
     <button class="primary-color mt-3" type="submit">Submit</button>
 </form>

@@ -14353,6 +14353,12 @@ var ParsleyFormValidationController = function () {
 	function ParsleyFormValidationController() {
 		_classCallCheck(this, ParsleyFormValidationController);
 
+		//Initialize instance variables required.
+		this.roiArray = [];
+		this.dayArray = [];
+		this.startMn = this.masternodeCollateral = null;
+		this.masternodeIncreaseCount = this.days = this.blockTime = this.BLOCKS_PER_DAY = null;
+
 		this.process();
 	}
 
@@ -14360,6 +14366,8 @@ var ParsleyFormValidationController = function () {
 		key: 'process',
 		value: function process() {
 			var _this = this;
+
+			var controller = this;
 
 			$(document).ready(function () {
 				$('#ROIForm').submit(function (event) {
@@ -14371,15 +14379,108 @@ var ParsleyFormValidationController = function () {
 						//If form is valid do ajax post!
 						var form = document.querySelector('#ROIForm'),
 						    data = (0, _getFormData2.default)(form); //Bundle all data up into useable pieces.
-
 						console.log(data);
 
-						console.log("form is valid");
+						controller.setValues(data).then(function () {
+							controller.init().then(function () {
+								console.log("finished simulation.");
+							});
+						});
 					} else {
 						console.log("form is invalid");
 					}
 				}).bind(_this);
 			});
+		}
+	}, {
+		key: 'init',
+		value: function init() {
+			var _this2 = this;
+
+			return new Promise(function (resolve) {
+				var currentBlock = void 0,
+				    reward = void 0,
+				    masternodes = void 0,
+				    ROI = void 0;
+				for (var day = 1; day <= _this2.days; day++) {
+					currentBlock = _this2.recalculateBlock(day);
+					reward = _this2.calculateMasternodeReward(currentBlock);
+					masternodes = _this2.calculateMasterNodesOnNetwork(day);
+					ROI = _this2.calculateROI(reward, masternodes);
+					_this2.dayArray.push(day);
+					_this2.roiArray.push(ROI);
+					console.log('currentBlock: ' + currentBlock + ' \n reward: ' + reward + ' \n masternodes on Network: ' + masternodes + ' \n ROI: ' + ROI);
+				}
+				resolve();
+			});
+		}
+
+		//Here we will initialize the instance variables.
+
+	}, {
+		key: 'setValues',
+		value: function setValues(data) {
+			var _this3 = this;
+
+			return new Promise(function (resolve) {
+				_this3.masternodeCollateral = data.masternodeCollateral;
+				_this3.startMn = data.startMasternodeCount;
+				_this3.masternodeIncreaseCount = data.masternodeIncreasePerDay;
+				_this3.days = data.days;
+				_this3.blockTime = data.blockTime;
+				_this3.BLOCKS_PER_DAY = 86400 / _this3.blockTime;
+				resolve();
+			});
+		}
+	}, {
+		key: 'recalculateBlock',
+		value: function recalculateBlock(day) {
+			return this.BLOCKS_PER_DAY * day;
+		}
+	}, {
+		key: 'calculateROI',
+		value: function calculateROI(reward, masternodesOnNetwork) {
+			var rewardPerHr = masternodesOnNetwork * this.blockTime / 3600;
+			var coinsPerDay = 24 / rewardPerHr * reward;
+			var dayUntilROI = this.masternodeCollateral / coinsPerDay;
+			return Math.floor(360 / dayUntilROI * 100);
+		}
+	}, {
+		key: 'calculateMasterNodesOnNetwork',
+		value: function calculateMasterNodesOnNetwork(day) {
+			return this.startMn + day * this.masternodeIncreaseCount;
+		}
+	}, {
+		key: 'calculateMasternodeReward',
+		value: function calculateMasternodeReward(currentBlock) {
+			if (currentBlock > 0 && currentBlock <= 24999) {
+				return 150 * 400 / 1000; // 80
+			} else if (currentBlock > 24999 && currentBlock <= 49999) {
+				return 150 * 475 / 1000; // 95
+			} else if (currentBlock > 49999 && currentBlock <= 74999) {
+				return 150 * 600 / 1000; // 120
+			}
+
+			// if (currentBlock > 0 && currentBlock <= 24999) {
+			// 	return (200 * 400) / 1000; // 80
+			// }
+			// else if (currentBlock > 24999 && currentBlock <= 49999) {
+			// 	return (200 * 475) / 1000; // 95
+			// }
+			// else if (currentBlock > 49999 && currentBlock <= 74999) {
+			// 	return (200 * 600) / 1000; // 120
+			// }
+			else if (currentBlock > 74999 && currentBlock <= 199999) {
+					return 150 * 600 / 1000; // 90
+				} else if (currentBlock > 199999 && currentBlock <= 319999) {
+					return 100 * 600 / 1000; // 60
+				} else if (currentBlock > 319999 && currentBlock <= 439999) {
+					return 75 * 600 / 1000; // 45
+				} else if (currentBlock > 439999 && currentBlock <= 559999) {
+					return 50 * 600 / 1000; // 30
+				} else if (currentBlock > 559999) {
+					return 25 * 600 / 1000; // 15
+				}
 		}
 	}]);
 

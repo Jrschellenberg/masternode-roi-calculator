@@ -27,7 +27,13 @@ $other-disabled-text: rgba(255,255,255,0.5);
 
 $primary-colour: #3366cc;
 $accent-colour: #cc9933;
-$error-text-colour: rgba(153,26,0, 1);
+
+$error-text-colour: rgba(204,76,51, 1);
+$background-error-colour: rgba(204,76,51, 0.25);
+
+//$error-text-colour: rgba(153,26,0, 1);
+//$background-error-colour: rgba(153,26,0, 0.15);
+$background-success-colour: rgba(51,204,153,0.25);
 
 $split-complementary-colour-one: #00468b;
 $split-complementary-color-two: #008b45;
