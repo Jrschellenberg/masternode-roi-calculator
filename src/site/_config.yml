@@ -2,7 +2,6 @@
 keep_files: ['stylesheets', 'js', 'files', 'images/']
 
 
-
 site-name: Masternode ROI Calculator
 
 
