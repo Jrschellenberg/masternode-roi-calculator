@@ -1,0 +1,19 @@
+@import 'variables';
+
+.footer{
+  position: relative;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: 3.8rem;
+  background-color: $primary-background-colour-dark;
+  color: $secondary-text;
+  h5{
+    padding: 1em 1em;
+  }
+
+  li{
+    padding: 1em 1em;
+    list-style: none;
+  }
+}

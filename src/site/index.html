@@ -1,0 +1,26 @@
+---
+title: This is a test.
+sitemap:
+  priority: 1.0
+  changefreq: monthly
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include head.html %}
+</head>
+<body>
+<div class="container">
+    {% include nav.html %}
+
+    <script type="text/javascript">
+			document.querySelector("#homeLink").classList.toggle("active");
+			document.querySelector("#homeLink").classList.toggle("disabled");
+    </script>
+    
+</div>
+ 
+        {% include footer.html %}
+</body>
+</html>

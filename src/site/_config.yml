@@ -1,0 +1,11 @@
+
+keep_files: ['stylesheets', 'js', 'files', 'images/']
+
+
+
+site-name: Masternode ROI Calculator
+
+
+plugins: [jekyll-paginate, jekyll-paginate-v2]
+
+

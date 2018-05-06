@@ -1,0 +1,119 @@
+@import 'variables'; 
+
+.accent-color{
+  background-color: $accent-colour;
+}
+
+.primary-color{
+  background-color: $primary-colour;
+  :hover{
+    background-color: $accent-colour;
+  }
+}
+
+.primary-text{
+  color: $primary-text;
+}
+
+.secondary-text{
+  color: $secondary-text;
+}
+
+.disabled{
+  color: $disabled-text !important;
+}
+
+.form-control {
+  
+  color:$input-primary-text;
+  background-color:$primary-text;
+}
+.opaque-background {
+  padding:1.5rem;
+  border-radius: 4px;
+  background-color: $content-background;
+}
+.footerHeader{
+  color: $primary-text;
+  padding-bottom:0.5rem;
+  text-align: center;
+  border-bottom: 1px solid;
+  border-color: $secondary-text;
+}
+
+.frontBox{
+  background-color:$front-box-background-color;
+  border: 3px solid $primary-background-colour-dark;
+}
+.popEffect{
+  transition: font-size 0.6s;
+}
+.popEffect:hover{
+  font-size: 4.5rem;
+}
+
+.projectCards{
+  @media (min-width: $sm){
+    min-height: 25rem;
+  }
+  @media (min-width: $md){
+    min-height: 22.5rem;
+  }
+  @media (min-width: $lg){
+    min-height: 20.5rem;
+  }
+  @media (min-width: $xl){
+    min-height: 16rem;
+  }
+}
+
+.cardStyles{
+  .card{
+    fill: $other-primary-text;
+    background-color: $primary-colour;
+    -webkit-transition: all 0.4s; /* Safari */
+    transition: all 0.4s;
+  }
+  svg{
+    fill: inherit;
+  }
+  .card:hover{
+    background-color: $accent-colour;
+    fill: $secondary-text;
+  }
+  a{
+    text-decoration: none;
+  }
+  a:hover{
+    color:	$secondary-text;
+  }
+}
+
+.iconSize{
+  font-size:3rem;
+}
+
+.parallaxBackgroundPicture{
+  
+  /* The image used */
+  background-image: url("../images/backgrounds/background.jpg");
+
+  /* Set a specific height */
+  height: 800px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  //background-position: 50% 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.vCenter{
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.carousel,.item,.active{height:100%;}
+.carousel-inner{height:100%;}

@@ -15,13 +15,24 @@ var Server = require('karma').Server;
 var child = require('child_process');
 var browserSync = require('browser-sync').create();
 var watch = require('gulp-watch');
-var uglify = require('gulp-uglify');
+var uglify = require('gulp-uglify'),
+	concat = require('gulp-concat'),
+	clean = require("gulp-clean"),
+	cleanCss = require("gulp-clean-css");
 
 var sourceRoot = 'src';
 var sitePath = sourceRoot + '/site';
 var jsPath = sourceRoot + '/js';
 var sassPath = sourceRoot + '/sass';
 var servePath = 'serve';
+
+const devCssServePath = 'serve/stylesheets/';
+
+const concatCSSFiles = [devCssServePath+'bootstrap.min.css', devCssServePath+'animate.min.css', devCssServePath+'base.css', devCssServePath+'mainNav.css',
+	devCssServePath+'timeline.css',	devCssServePath+'footer.css',devCssServePath+'classUtilities.css'];
+
+
+
 
 var jekyllLogger = (buffer) => {
     buffer.toString()
@@ -42,11 +53,38 @@ gulp.task('buildJekyll', ['buildSass', 'buildJs'], () => {
   return process.exit(0);
 });
 
-gulp.task('buildJekyllProduction', ['buildSass', 'buildJsProduction'], () => {
+gulp.task('buildJekyllProduction', ['buildSassProd', 'buildJsProduction'], () => {
 	jekyllLogger(child.execSync('jekyll build --source ' + sitePath + ' --destination ' + servePath));
 	return process.exit(0);
 });
 
+gulp.task('buildSassProd', ['removeOldCssLocation'] );
+
+gulp.task('bundleCss', ['buildSass'], () => {
+	return gulp.src(concatCSSFiles)
+		.pipe(concat('bundle.css'))
+		.pipe(cleanCss())
+		.pipe(gulp.dest('serve/stylesheet'));
+});
+
+gulp.task('cleanStyleSheets', ['bundleCss'], () => {
+	return gulp.src('serve/stylesheets/*')
+		.pipe(clean());
+});
+gulp.task('moveCssBundle', ['cleanStyleSheets'], () => {
+	return gulp.src('serve/stylesheet/*')
+		.pipe(gulp.dest('serve/stylesheets/'));
+});
+
+gulp.task('removeOldCssLocation', ['moveCssBundle'], () => {
+	return gulp.src('serve/stylesheet/**')
+		.pipe(clean({force:true}));
+});
+
+gulp.task('cleanServe', () => {
+	return gulp.src('serve/*')
+		.pipe(clean());
+});
 
 gulp.task('serve', () => {
   browserSync.init({

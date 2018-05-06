@@ -1,0 +1,10 @@
+<div class="row footer">
+ 
+</div>
+
+
+{% if jekyll.environment == "production" %}
+<script type="text/javascript" src="{{site.url}}/js/bundle.js"></script>
+{% else %}
+<script type="text/javascript" src="/js/bundle.js"></script>
+{% endif %}
