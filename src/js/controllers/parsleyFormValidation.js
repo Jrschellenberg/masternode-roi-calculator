@@ -116,6 +116,8 @@ export default class ParsleyFormValidationController {
 	
 	init(){
 		return new Promise((resolve) => {
+			console.clear();
+			// console.log("WARNING: Programmatically clearing console here! CAREFUL");
 			let currentBlock, reward, masternodes, ROI;
 			for (let day = 1; day <= this.days; day++) {
 				currentBlock = this.recalculateBlock(day);
@@ -124,7 +126,7 @@ export default class ParsleyFormValidationController {
 				ROI = this.calculateROI(reward, masternodes);
 				let array = [day, ROI, masternodes];
 				this.dataArray.push(array);
-				//console.log(`Current Day ${day} \n currentBlock: ${currentBlock} \n reward: ${reward} \n masternodes on Network: ${masternodes} \n ROI: ${ROI}`);
+				console.log(`Day: ${day} \n\n Block: ${currentBlock} \n Calculated Reward: ${reward} \n Masternodes on Network: ${masternodes} \n ROI: ${ROI}\n`);
 			}
 			resolve();
 		});
