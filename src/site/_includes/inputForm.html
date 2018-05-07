@@ -1,0 +1,96 @@
+<form class="parsleyFormValidate animated" id="ROIForm" data-parsley-errors-container="#errorBlock">
+    <div class="form-group">
+        <div id="errorBlock"></div>
+    </div>
+    <div class="form-group">
+        <label class="primary-text" for="masternodeCollateral">Masternode Collateral</label>
+        <input class="form-control" id="masternodeCollateral" type="text"
+               aria-describedby="emailHelp" value="10000"
+               data-parsley-required="true" name="masternodeCollateral"
+               data-parsley-type="number" data-parsley-range="[1, 1000000]"
+               data-parsley-error-message="Masternode Collateral: Must enter valid number between 1 - 1000000 (1,000,000)"/>
+    </div>
+    <div class="form-row">
+        <div class="col-md py-3">
+        <label class="primary-text" for="exampleInputFirstName">Start Masternode Count (Integer)
+        </label>
+        <input class="form-control" id="exampleInputFirstName" type="text"
+               placeholder="Enter first name" data-parsley-required="true" value="115"
+               data-parsley-type="integer" data-parsley-range="[1, 5000]"
+               name="startMasternodeCount"
+               data-parsley-error-message="Start Masternode: Please Enter Integer value between 1 - 5000"/>
+        </div>
+        <div class="col-md py-3">
+        <label class="primary-text" for="masternodeIncreasePerDay">Masternode Increase Per Day</label>
+        <input class="form-control" id="masternodeIncreasePerDay" type="text" value="2.5"
+               name="masternodeIncreasePerDay"
+               data-parsley-type="number" data-parsley-range="[1, 1000]"
+               data-parsley-error-message="Masternode Increase: Please a number value between 1 - 1000" />
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md py-3">
+            <label class="primary-text" for="numberDays">Days to Run Simulation (Integer)</label>
+            <input type="text" class="form-control" id="numberDays" value="360"
+                   data-parsley-required="true" name="days"
+                   data-parsley-type="integer" data-parsley-range="[1, 5000]"
+                   data-parsley-error-message="Days Run Simulation: Must enter a Number of days between 1 - 5000"/>
+        </div>
+        <div class="col-md py-3">
+            <label class="primary-text" for="blockTime">Block Time (Integer)</label>
+            <input type="text" class="form-control" id="blockTime" value="60"
+                   data-parsley-required="true" name="blockTime"
+                   data-parsley-type="integer" data-parsley-range="[1, 86400]"
+                   data-parsley-error-message="Block Time: Must enter a valid Block time, In seconds between 1-86400 (86,400)"/>
+        </div>
+    </div>
+    <div class="form-row pt-4 pb-2">
+        <div class="col-11 mx-auto">
+            <h2 class="text-center">Section for block rewards (Can do up to {{site.data.blockValues.size}} at the moment)</h2>
+        </div>
+    </div>
+    <!--Block section 1-->
+    {% for item in site.data.blockValues %}
+    <div class="form-row pt-4 pb-2">
+        <div class="col-11 mx-auto">
+            <h4 class="text-center">Section For block reward phase {{item.val | plus:1}}</h4>
+        </div>
+    </div>
+        <div class="form-row">
+            <div class="col-md py-3">
+                <label class="primary-text" for="startBlock{{item.val}}">Start Block {{item.val | plus:1}} (Integer)</label>
+                <input type="text" class="form-control" id="startBlock{{item.val}}" value="{{item.startBlockValue}}"
+                       data-parsley-required="true" name="startBlock{{item.val}}"
+                       data-parsley-type="integer" data-parsley-range="[0, 5000000]"
+                       data-parsley-error-message="Start Block {{item.val | plus:1}}: Must enter a Integer between 1 - 5000000 (5,000,000)"/>
+            </div>
+            {% unless forloop.last %}
+                <div class="col-md py-3">
+                    <label class="primary-text" for="endBlock{{item.val}}">End Block {{item.val | plus:1}} (Integer)</label>
+                    <input type="text" class="form-control" id="endBlock{{item.val}}" value="{{item.endBlockValue}}"
+                           data-parsley-required="true" name="endBlock{{item.val}}"
+                           data-parsley-type="integer" data-parsley-range="[1, 5000000]"
+                           data-parsley-error-message="End Block {{item.val | plus:1}}: Must enter a valid Block time, In seconds between 1-86400 (86,400)"/>
+                </div>
+            {% endunless %}
+        </div>
+        <div class="form-row">
+            <div class="col-md py-3">
+                <label class="primary-text" for="rewardsBlock{{item.val}}">Rewards {{item.val | plus:1}} (Integer)</label>
+                <input type="text" class="form-control" id="rewardsBlock{{item.val}}" value="{{item.blockReward}}"
+                       data-parsley-required="true" name="rewardsBlock{{item.val}}"
+                       data-parsley-type="integer" data-parsley-range="[1, 100000]"
+                       data-parsley-error-message="Rewards {{item.val | plus:1}}: Must enter a Integer between 1 - 100000"/>
+            </div>
+            <div class="col-md py-3">
+                <label class="primary-text" for="mnPercentBlock{{item.val}}">Masternode Percent {{item.val | plus:1}} (Integer)</label>
+                <input type="text" class="form-control" id="mnPercentBlock{{item.val}}" value="{{item.masternodePercent}}"
+                       data-parsley-required="true" name="mnPercentBlock{{item.val}}"
+                       data-parsley-type="number" data-parsley-range="[1, 100]" data-parsley-pattern="[0-9]*(\.?[0-9]{1}$)?"
+                       data-parsley-error-message="Masternode Percent {{item.val | plus:1}}: Must enter valid integer between 1-100 with only 1 Decimal place!"/>
+            </div>
+        </div>
+    {% endfor %}
+    
+    <button class="primary-color mt-3" type="submit">Submit</button>
+</form>

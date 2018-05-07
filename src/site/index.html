@@ -1,0 +1,36 @@
+---
+title: This is a test.
+layout: default
+sitemap:
+priority: 1.0
+changefreq: monthly
+---
+
+<main class="my-5">
+    <div class="container-fluid px-5">
+        <div class="row justify-content-md-center">
+            <div class="col-11 offset-1 mx-auto">
+                <h1 class="text-center">Masternode ROI Calculator</h1>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-11 offset-1 mx-auto">
+                <p class="text-center">This is a front-end application used to calculate, plot, and graph a ROI curve
+                    based off of users input.</p>
+                <p class="text-center">Code is open source and free to use under MIT license.</p>
+                <p class="text-center">Disclaimer: As I am limited for time, I tried to put in as much form validation as I could. However, at the moment this doesn't validate to check the block Numbers you are entering make sense. They should increase from section 1-8. I may implement this at a later date.</p>
+                <p class="text-center">To Use: Fill out the form as required: To submit Form Either press <strong>Enter button on keyboard, or click submit button below</strong>. Graph is sized to fit the your browswers window size and will appear Below this text <strong>Here:</strong> </p>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-11 offset-1 mx-auto">
+                <div class="p-4" id="graph"></div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-11 offset-1 mx-auto">
+                {% include inputForm.html %}
+            </div>
+        </div>
+    </div>
+</main>

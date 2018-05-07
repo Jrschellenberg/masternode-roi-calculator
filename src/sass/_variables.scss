@@ -1,0 +1,68 @@
+/*
+Media Query values, same as bootstrap.
+ */
+$xl: 1200px;
+$lg: 992px;
+$md: 768px;
+$sm: 576px;
+$xs: 482px;
+
+/*
+Colour pallete goes here
+ */
+$front-box-background-color: #FEFEFE;
+$primary-background-colour-dark: #999999;
+$primary-background-color-hover: #808080;
+$primary-background-colour-light: #efefef;
+
+$primary-text: rgba(0,0,0,0.88);
+$secondary-text: rgba(0,0,0,0.7);
+$disabled-text: rgba(0,0,0,0.5);
+$input-primary-text: rgba(0,0,0,0.87);
+$input-secondary-text: rgba(0,0,0,0.57);
+
+$other-primary-text: rgba(255,255,255,0.88);
+$other-secondary-text: rgba(255,255,255,0.7);
+$other-disabled-text: rgba(255,255,255,0.5);
+
+$primary-colour: #3366cc;
+$accent-colour: #cc9933;
+
+$error-text-colour: rgba(204,76,51, 1);
+$background-error-colour: rgba(204,76,51, 0.25);
+
+//$error-text-colour: rgba(153,26,0, 1);
+//$background-error-colour: rgba(153,26,0, 0.15);
+$background-success-colour: rgba(51,204,153,0.25);
+
+$split-complementary-colour-one: #00468b;
+$split-complementary-color-two: #008b45;
+$split-complementary-color-three: #8b8b00;
+
+
+/*
+Body & Base Styles
+ */
+$content-background: rgba(43,43,43,0.60); //Background colour to overlay the background image
+
+
+/*
+Main Navigation Variables
+ */
+$navbar-padding-content-min-height: 5rem;
+$navbar-padding-content-max-height: 18rem;
+$navbar-top-background-color: rgba(153,153,153,0.75);
+
+
+$navbar-color: $primary-text;
+//$navbar-color: #501717;
+//$navbar-hover-color: #153737;
+$navbar-hover-color: #501717;
+
+$navbar-shift-hover-background-color: rgba(80,23,23,0.25);
+$navbar-shift-border-radius: 8px;
+
+/*
+About Variables
+ */
+$about-background-color: #18121b;
