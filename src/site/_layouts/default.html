@@ -1,6 +1,6 @@
 ---
 ---
-
+{% capture html %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,4 +20,4 @@
     </div>
 </body>
 </html>
-
+{% endcapture %}{{ html | strip_newlines | replace:'    ','' | replace:'    ','' | replace:'  ',' ' }}

@@ -1,3 +1,5 @@
+{% capture html %}
+
 <!--Metadata-->
 <meta charset="utf-8">
 <title>Masternode ROI Calculator</title>
@@ -9,11 +11,8 @@
 <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 
-
-{% if jekyll.environment == "production" %}
+{% if site.environment == "production" %}
 <link rel="stylesheet" href="/stylesheets/bundle.css">
-
-<!--<link rel="stylesheet" href="{{site.url}}/stylesheets/loading.css">-->
 {% else %}
 <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
 <link rel="stylesheet" href="/stylesheets/animate.min.css" />
@@ -22,13 +21,6 @@
 <link rel="stylesheet" href="/stylesheets/timeline.css" />
 <link rel="stylesheet" href="/stylesheets/footer.css" />
 <link rel="stylesheet" href="/stylesheets/classUtilities.css" />
-<!--<link rel="stylesheet" href="/stylesheets/loading.css">-->
 {% endif %}
 
-
-
-
-
-
-
-
+{% endcapture %}{{ html | strip_newlines | replace:'    ','' | replace:'    ','' | replace:'  ',' ' }}
