@@ -1,3 +1,4 @@
+{% capture html %}
 <form class="parsleyFormValidate animated" id="ROIForm" data-parsley-errors-container="#errorBlock">
     <div class="form-group">
         <div id="errorBlock"></div>
@@ -94,3 +95,4 @@
     
     <button class="primary-color mt-3" type="submit">Submit</button>
 </form>
+{% endcapture %}{{ html | strip_newlines | replace:'    ','' | replace:'    ','' | replace:'  ',' ' }}

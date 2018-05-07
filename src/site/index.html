@@ -2,10 +2,10 @@
 title: This is a test.
 layout: default
 sitemap:
-priority: 1.0
-changefreq: monthly
+  priority: 1.0
+  changefreq: monthly
 ---
-
+{% capture html %}
 <main class="my-5">
     <div class="container-fluid px-5">
         <div class="row justify-content-md-center">
@@ -34,3 +34,4 @@ changefreq: monthly
         </div>
     </div>
 </main>
+{% endcapture %}{{ html | strip_newlines | replace:'    ','' | replace:'    ','' | replace:'  ',' ' }}
