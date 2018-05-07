@@ -2,6 +2,7 @@
 keep_files: ['stylesheets', 'js', 'files', 'images/']
 
 environment: "production"
+url: "https://mncalculator.schellenberg.site"
 
 site-name: Masternode ROI Calculator
 
