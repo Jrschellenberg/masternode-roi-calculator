@@ -11,3 +11,5 @@ serve/
 .idea/
 package-lock\.json
 Gemfile.lock
+src/js/dependencies/bundle.js
+src/js/dependencies/bundle.js.map
